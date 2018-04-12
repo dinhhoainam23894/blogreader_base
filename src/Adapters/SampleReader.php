@@ -9,6 +9,6 @@
 namespace Dok123\Sample\Adapters;
 
 
-class SampleAdapter extends AdapterAbstract {
+class SampleReader extends ReaderAbstract {
 	
 }

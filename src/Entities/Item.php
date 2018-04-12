@@ -8,7 +8,7 @@
  * Time: 14:56
  */
 
-namespace Dok123\Sample\Entities;
+namespace Dok123\BlogReader\Entities;
 
 
 class Item {
