@@ -12,6 +12,7 @@ namespace Dok123\BlogReader;
 use Dok123\BlogReader\Adapters\BlogReaderAdapter;
 use Dok123\BlogReader\Adapters\WpApiV1;
 use Dok123\BlogReader\Adapters\WpApiV2;
+use Dok123\BlogReader\Exceptions\BLogNotFoundException;
 use PHPUnit\Runner\Exception;
 
 class BlogReader
@@ -20,14 +21,17 @@ class BlogReader
         $blog = new BlogReaderAdapter($url);
         $api_v1 = new WpApiV1($url);
         $api_v2 = new WpApiV2($url);
-        if ($blog->getResponseCode()){
+        try{
+            $blog->getResponseCode();
             return $blog;
-        }elseif ($api_v1->getResponseCode()){
-            return $api_v1;
-        }elseif ($api_v2->getResponseCode()){
-            return $api_v2;
-        }else{
-            Throw new Exception();
+        }catch (\Exception $e){
+            try{
+                $api_v1 = new WpApiV1($url);
+                return $api_v1;
+            }catch (\Exception $e){
+                throw new BLogNotFoundException('Not found');
+            }
         }
+
      }
 }

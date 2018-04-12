@@ -1,4 +1,8 @@
 <?php
+
+use Dok123\BlogReader\BlogReader;
+use Dok123\BlogReader\Exceptions\BLogNotFoundException;
+
 /**
  * Created by PhpStorm.
  * User: admin
@@ -9,20 +13,32 @@
 class BlogReaderTest extends \PHPUnit\Framework\TestCase
 {
     public $url = 'http://playswithpaper.blogspot.com/';
-    public function testDetectUrl(){
-         print_r(\Dok123\BlogReader\BlogReader::fromUrl($this->url));
+    public function testException(){
+        $this->expectException(BLogNotFoundException::class);
+        $blog = BlogReader::fromUrl('wtf.com');
     }
-    public function testUrl(){
-        $blog = new \Dok123\BlogReader\Adapters\BlogReaderAdapter($this->url);
-        echo $blog->getResponseCode();
+    public function testBLogAdapter(){
+        $blog = BlogReader::fromUrl($this->url);
+        if($blog instanceof \Dok123\BlogReader\Adapters\BlogReaderAdapter){
+            $this->assertTrue(true);
+        }else{
+            $this->assertTrue(false);
+        }
     }
-    public function testRequestApi(){
-        $sample = new \Dok123\BlogReader\Adapters\BlogReaderAdapter($this->url);
-        $result = $sample->getInfo($url);
-        $arr = ['id','blog'];
-        $posts = $sample->posts($arr,null,2);
-        print_r($posts);
-        //print_r($sample->current_page->items);
-//        $sample->next();
+    public function testApiV1Adapter(){
+        $api_v1 = BlogReader::fromUrl('en.support.wordpress.com');
+        if($api_v1 instanceof \Dok123\BlogReader\Adapters\WpApiV1){
+            $this->assertTrue(true);
+        }else{
+            $this->assertTrue(false);
+        }
     }
+//    public function testDetectUrl(){
+//         print_r(\Dok123\BlogReader\BlogReader::fromUrl($this->url));
+//    }
+//    public function testUrl(){
+//        $blog = new \Dok123\BlogReader\Adapters\BlogReaderAdapter($this->url);
+//        echo $blog->getResponseCode();
+//    }
+
 }

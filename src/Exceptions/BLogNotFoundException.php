@@ -11,7 +11,7 @@ namespace Dok123\BlogReader\Exceptions;
 
 use PHPUnit\Runner\Exception;
 
-class BLogNotFoundException extends Exception
+class BLogNotFoundException extends \Exception
 {
 
 }

@@ -42,7 +42,7 @@ class BlogReaderAdapter extends ReaderAbstract
 
     public function next()
     {
-        if($this->current_page->nextPageToken && $this->current_page->nextPageToken != null){
+        if(!empty($this->current_page->nextPageToken) && $this->current_page->nextPageToken != null){
             $this->posts(null,$this->current_page->nextPageToken);
             return true;
         }else{
